@@ -1,1 +1,1 @@
-### This directory contains nuclei pipelines used in **Results-table-Cellprofiler-Evaluation**
+### This directory contains nuclei segmentation pipelines used in Results-table-Cellprofiler-Evaluation
