@@ -4,7 +4,7 @@
 - Lysosomes were evaluated on validation set-images found in /home/marmia/snic2020-6-41/Mariam/Mariam_Thesis/Results_Pipelines_Images/Images/Images_And_Summary/Original_Raw_Normalized_Images/lysosome_images/boundary_labels (Total = 13).<br>
 <br>
 <br>
-**P.S. Nuclei were evaluated based on CP segmentation HOWEVER we decided to introduce the raw annotations (ground truth/annotated with CVAT) of the nuclei as objects and segment cells accordingly***. *The reason for this is because CP nuclei segmentation was not perfect*.
+**P.S. Nuclei were evaluated based on CP segmentation HOWEVER we decided to introduce the raw annotations (ground truth/annotated with CVAT) of the nuclei as objects and segment cells accordingly**. *The reason for this is because CP nuclei segmentation was not perfect*.
 <br>
 <br>
 - All of the pipelines were evaluated with the evaluation script found in /lunarc/nobackup/projects/snic2020-6-41/Mariam/Mariam_Thesis/Results_Pipelines_Images/Images/Images_And_Summary/imageanalysis/Evaluation_Script.
