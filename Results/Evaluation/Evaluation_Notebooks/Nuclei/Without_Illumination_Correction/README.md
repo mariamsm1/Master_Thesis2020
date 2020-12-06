@@ -1,1 +1,1 @@
-
+- Pipe1 up until Pipe7 represent the pipelines shown in **Results-table-Cellprofiler-Evaluation.ipynb** after the illumination correction module was removed.
