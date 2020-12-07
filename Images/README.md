@@ -1,2 +1,4 @@
+- Raw_annotations_nuclei contains the nuclei ground truth images that were used for evaluating nuclei images (CP input images were the same except that they end with .C01).
 - Path for evaluated nuclei (from validation set) : /home/marmia/Mariam_Thesis/Evaluation_Data/Ground_Truth/Nuclei/
+- Raw_annotations_cells contains the cells ground truth images that were used for evaluating cell images (CP input images were the same except that they end with .C01).
 - Path for evaluated cells (from validation set) : /home/marmia/Mariam_Thesis/Evaluation_Data/Ground_Truth/Cells/
