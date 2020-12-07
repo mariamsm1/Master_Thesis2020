@@ -1,1 +1,2 @@
-
+- Path for evaluated nuclei (from validation set) : /home/marmia/Mariam_Thesis/Evaluation_Data/Ground_Truth/Nuclei/
+- Path for evaluated cells (from validation set) : /home/marmia/Mariam_Thesis/Evaluation_Data/Ground_Truth/Cells/
