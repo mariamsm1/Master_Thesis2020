@@ -1,0 +1,4 @@
+
+    - Cells area plot was generated from 15 raw annotated images.
+    - Nuclei area plot was generated from 15 raw annotated images.
+
