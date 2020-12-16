@@ -20,9 +20,15 @@ Includes all the illumination correction pipelines that were tested during the p
 
 
 * Results <br>
-Contains the evaluation script that was modified by one of the master students in our lab and further modified by me to be able to run multiple cellprofiler images at once. One evaluation script was run per one pipeline for a given object. Note that the **utils** folder must be placed in the same directory as the script before running it. for changing the false positive and false negative thresholds in the script: <br>
+Contains the evaluation script that was modified by one of the master students in our lab and further modified by me to be able to run multiple cellprofiler images at once. One evaluation script was run per one pipeline for a given object and the same was true for illumination-corrected pipelines and illumination uncorrected pipelines. Note that the **utils** folder must be placed in the same directory as the script before running it. for changing the false positive and false negative thresholds in the script: <br>
   1. Go to **utils/evaluation.py** 
   2. Change Threshold = ... in FPs and FNs functions (e.g. threshold = 0.1).
   3. OR add to the FPs and FNs def functions in the evaluation script (4th cell) the desired threshold(after image_name).
 
-This folder contains also the plotting scripts 
+This folder contains also the plotting scripts:<br>
+  1. To compare the effect of illumination correction on the evaluation (see IlluminationVsNoIllumination.ipynb). 
+  2. To see the size distribution of ground truth objects belonging to lysosomes, nuclei, an cells (see Size_Distribution_Plots_Raw_Annotation folder).
+  3. To compare the number of spots and area distribution of lysosomes in ground truth images vs cellprofiler segmented images.
+  4. To calculate the average number of lysosomes per cell.
+  
+  For points 3 and 4, see LysoSpots_number_and_area_CPvsRaw folder. Note that the best pipeline (i.e. the pipeline with the best evaluation) was used for calculations and comparisons.
