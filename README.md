@@ -10,6 +10,10 @@ For the first task, different pipelines were built to try identify the objects a
 * Cellprofiler v4.0.7 <br>
 * ThinLinc Client for macOS v4.12.0 <br>
 
+## Packages and libraries
+* See packages.py
+* Matplotlib library v2.2.3
+
 ## Quick tour in the directories
 * Images <br>
 Includes the list of annotated images for each of the channels (d0,d1,and d2). These Images were used in the evaluation of my pipelines.There are 40 nuclei images that were evaluated to further test whether pipelines are better with or without illumination correction. See folder's READme for more details about the paths.<br>
