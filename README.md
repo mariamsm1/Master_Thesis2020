@@ -22,7 +22,7 @@ Includes all the illumination correction pipelines that were tested during the p
 * Results <br>
 Contains the evaluation script that was modified by one of the master students in our lab and further modified by me to be able to run multiple cellprofiler images at once. One evaluation script was run per one pipeline for a given object and the same was true for illumination-corrected pipelines and illumination-uncorrected pipelines. Note that the **utils** folder must be placed in the same directory as the evaluation script before running it. for changing the false positive and false negative thresholds in the script: <br>
   1. Go to **utils/evaluation.py** 
-  2. Change Threshold = ... in FPs and FNs functions (e.g. threshold = 0.1).
+  2. Change threshold = ... in FPs and FNs functions (e.g. threshold = 0.1).
   3. OR add to the FPs and FNs def functions in the evaluation script (4th cell) the desired threshold(after image_name).
 
   This folder contains also the plotting scripts:<br>
