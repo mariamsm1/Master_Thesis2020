@@ -97,7 +97,7 @@ for i in imRaw:
 					for m,k in zip(x,y):
 						#crop based on the y and x locations (112 pixels from each direction)
 						cropImg = imageVar[k - 112: k + 112, m - 112: m + 112].copy()
-						cv2.imwrite("{0}/{1}_{2}_{3}_{4}.{5}".format(subdir,imName, j, str(m), str(k), imExt), cropImg)
+						cv2.imwrite("{0}/{1}_{2}_{3}_{4}-{5}.{6}".format(subdir,imName, j, str(m), str(k), '8bits',imExt), cropImg)
 	else:
 		imName = re.split('[./]',i)[1]
 		i = re.split('[./]',i)[1][0:31] + '.' + imExt
@@ -128,5 +128,5 @@ for i in imRaw:
 					y = [round(k) for k in y]
 					for m,k in zip(x,y):
 						cropImg = imageVar[k - 112: k + 112, m - 112: m + 112].copy()
-						cv2.imwrite("{0}/{1}_{2}_{3}_{4}.{5}".format(subdir,imName, j, str(m), str(k), imExt), cropImg)
+						cv2.imwrite("{0}/{1}_{2}_{3}_{4}-{5}.{6}".format(subdir,imName, j, str(m), str(k), '8bits',imExt), cropImg)
 print('Yay!Done.')
