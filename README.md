@@ -37,3 +37,5 @@ Contains the evaluation script that was modified by one of the master students i
     4. To calculate the average number of lysosomes per cell.
   
   For points 3 and 4, see LysoSpots_number_and_area_CPvsRaw folder. Note that the best pipeline (i.e. the pipeline with the best evaluation) was used for calculations and comparisons.
+
+**To be continued**
