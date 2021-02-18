@@ -1,0 +1,650 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:407
+GitHash:
+ModuleCount:42
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your project, use the Images module to compile a list of files and/or folders that you want to analyze. You can also specify a set of rules to include only the desired files in your selected folders.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:No filtering
+    Select the rule criteria:and (file does contain "L02")
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e, metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:Yes
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:1
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:^(?P<Instrument>.*)_(?P<Plate>.*)_(?P<Well>[A-Za-z][0-9]{1,2})f(?P<Site>[0-9]{1,2})d(?P<ChannelNumber>[0-2])
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['The NamesAndTypes module allows you to assign a meaningful name to each image by which other modules will refer to it.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Grayscale image
+    Name to assign these images:OrigHoechst
+    Match metadata:[]
+    Image set matching method:Order
+    Set intensity range from:Image metadata
+    Assignments count:4
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:and (metadata does ChannelNumber "1")
+    Name to assign these images:Cell_original
+    Name to assign these objects:DNA_png
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does ChannelNumber "0")
+    Name to assign these images:Nucleus_original
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (directory does contain "Lysosomes")
+    Name to assign these images:Lyso_original
+    Name to assign these objects:Nucleus
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does ChannelNumber "2")
+    Name to assign these images:Mito_original
+    Name to assign these objects:Cytoplasm
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:No
+    grouping metadata count:1
+    Metadata category:Plate
+
+CorrectIlluminationCalculate:[module_num:5|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Nucleus_original
+    Name the output image:Illum_Nuclei
+    Select how the illumination function is calculated:Background
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:No
+    Calculate function for each image individually, or based on all images?:Each
+    Smoothing method:Splines
+    Method to calculate smoothing filter size:Automatic
+    Approximate object diameter:10
+    Smoothing filter size:10
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2.0
+    Image resampling factor:2.0
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+CorrectIlluminationApply:[module_num:6|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Nucleus_original
+    Name the output image:Corr_Nuclei
+    Select the illumination function:Illum_Nuclei
+    Select how the illumination function is applied:Subtract
+    Set output image values less than 0 equal to 0?:Yes
+    Set output image values greater than 1 equal to 1?:Yes
+
+EnhanceOrSuppressFeatures:[module_num:7|svn_version:'Unknown'|variable_revision_number:7|show_window:False|notes:['']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Nucleus_original
+    Name the output image:EnhanceOrSuppressFeatures_Nuclei
+    Select the operation:Enhance
+    Feature size:100
+    Feature type:Speckles
+    Range of hole sizes:1,10
+    Smoothing scale:2.0
+    Shear angle:0.0
+    Decay:0.95
+    Enhancement method:Tubeness
+    Speed and accuracy:Fast
+    Rescale result image:No
+
+IdentifyPrimaryObjects:[module_num:8|svn_version:'Unknown'|variable_revision_number:14|show_window:False|notes:['Identify objects from uncorrected image.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:EnhanceOrSuppressFeatures_Nuclei
+    Name the primary objects to be identified:IdentifyPrimaryObjects_Nuclei
+    Typical diameter of objects, in pixel units (Min,Max):16,20000
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Shape
+    Method to draw dividing lines between clumped objects:Shape
+    Size of smoothing filter:30
+    Suppress local maxima that are closer than this minimum allowed distance:13.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:No
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Display accepted local maxima?:No
+    Select maxima color:Blue
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Adaptive
+    Thresholding method:Minimum Cross-Entropy
+    Threshold smoothing scale:0.3
+    Threshold correction factor:0.1
+    Lower and upper bounds on threshold:0.028,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Background
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Otsu
+
+FilterObjects:[module_num:9|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the objects to filter:IdentifyPrimaryObjects_Nuclei
+    Name the output objects:FilterObjects1
+    Select the filtering mode:Image or mask border
+    Select the filtering method:Limits
+    Select the objects that contain the filtered objects:None
+    Select the location of the rules or classifier file:Elsewhere...|
+    Rules or classifier file name:rules.txt
+    Class number:1
+    Measurement count:1
+    Additional object count:0
+    Assign overlapping child to:Both parents
+    Select the measurement to filter by:Intensity_IntegratedIntensity_Nucleus_original
+    Filter using a minimum measurement value?:No
+    Minimum value:0.5
+    Filter using a maximum measurement value?:Yes
+    Maximum value:1.0
+
+MeasureObjectSizeShape:[module_num:10|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:FilterObjects1
+    Calculate the Zernike features?:No
+    Calculate the advanced features?:No
+
+MeasureObjectIntensity:[module_num:11|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Corr_Nuclei
+    Select objects to measure:FilterObjects1
+
+FilterObjects:[module_num:12|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['These will be used in IdentifySecondaryObjects.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the objects to filter:FilterObjects1
+    Name the output objects:FilterObjects2
+    Select the filtering mode:Measurements
+    Select the filtering method:Limits
+    Select the objects that contain the filtered objects:None
+    Select the location of the rules or classifier file:Elsewhere...|
+    Rules or classifier file name:rules.txt
+    Class number:1
+    Measurement count:1
+    Additional object count:0
+    Assign overlapping child to:Both parents
+    Select the measurement to filter by:AreaShape_Area
+    Filter using a minimum measurement value?:Yes
+    Minimum value:100
+    Filter using a maximum measurement value?:No
+    Maximum value:1.0
+
+ConvertObjectsToImage:[module_num:13|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:['Use this module if you want to save later the IdentifyPrimaryObjects as an image.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:IdentifyPrimaryObjects_Nuclei
+    Name the output image:Nuclei_Image
+    Select the color format:Color
+    Select the colormap:Default
+
+SaveImages:[module_num:14|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:Nuclei_Image
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:Nucleus_original
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:png
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+CorrectIlluminationCalculate:[module_num:15|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Cell_original
+    Name the output image:Illum_Cell
+    Select how the illumination function is calculated:Background
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:No
+    Calculate function for each image individually, or based on all images?:Each
+    Smoothing method:Splines
+    Method to calculate smoothing filter size:Automatic
+    Approximate object diameter:10
+    Smoothing filter size:10
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2.0
+    Image resampling factor:2.0
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+CorrectIlluminationApply:[module_num:16|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Cell_original
+    Name the output image:Corr_Cell
+    Select the illumination function:Illum_Cell
+    Select how the illumination function is applied:Subtract
+    Set output image values less than 0 equal to 0?:Yes
+    Set output image values greater than 1 equal to 1?:Yes
+
+IdentifySecondaryObjects:[module_num:17|svn_version:'Unknown'|variable_revision_number:10|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:FilterObjects2
+    Name the objects to be identified:IdentifySecondaryObjects
+    Select the method to identify the secondary objects:Watershed - Image
+    Select the input image:Corr_Cell
+    Number of pixels by which to expand the primary objects:50
+    Regularization factor:0.1
+    Discard secondary objects touching the border of the image?:No
+    Discard the associated primary objects?:No
+    Name the new primary objects:FilteredNuclei
+    Fill holes in identified objects?:Yes
+    Threshold setting version:12
+    Threshold strategy:Adaptive
+    Thresholding method:Otsu
+    Threshold smoothing scale:1.5
+    Threshold correction factor:0.38
+    Lower and upper bounds on threshold:0.009,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Sauvola
+
+ConvertObjectsToImage:[module_num:18|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:IdentifySecondaryObjects
+    Name the output image:NucleiImage
+    Select the color format:Color
+    Select the colormap:Default
+
+SaveImages:[module_num:19|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:NucleiImage
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:Cell_original
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:png
+    Output file location:Elsewhere...|/home/marmia/Mariam_Thesis/Evaluation_Data/Cellprofiler_predictions
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+EnhanceOrSuppressFeatures:[module_num:20|svn_version:'Unknown'|variable_revision_number:7|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Corr_Cell
+    Name the output image:Enhance_Lyso
+    Select the operation:Enhance
+    Feature size:6
+    Feature type:Speckles
+    Range of hole sizes:1,10
+    Smoothing scale:2.0
+    Shear angle:0.0
+    Decay:0.95
+    Enhancement method:Tubeness
+    Speed and accuracy:Fast
+    Rescale result image:No
+
+Smooth:[module_num:21|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Enhance_Lyso
+    Name the output image:SmoothLyso1
+    Select smoothing method:Gaussian Filter
+    Calculate artifact diameter automatically?:No
+    Typical artifact diameter:2.0
+    Edge intensity difference:0.1
+    Clip intensities to 0 and 1?:Yes
+
+EnhanceOrSuppressFeatures:[module_num:22|svn_version:'Unknown'|variable_revision_number:7|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:SmoothLyso1
+    Name the output image:Enhance2_Lyso
+    Select the operation:Enhance
+    Feature size:6
+    Feature type:Speckles
+    Range of hole sizes:1,10
+    Smoothing scale:2.0
+    Shear angle:0.0
+    Decay:0.95
+    Enhancement method:Tubeness
+    Speed and accuracy:Fast
+    Rescale result image:No
+
+Smooth:[module_num:23|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Enhance2_Lyso
+    Name the output image:SmoothLyso2
+    Select smoothing method:Gaussian Filter
+    Calculate artifact diameter automatically?:No
+    Typical artifact diameter:2.0
+    Edge intensity difference:0.1
+    Clip intensities to 0 and 1?:Yes
+
+IdentifyPrimaryObjects:[module_num:24|svn_version:'Unknown'|variable_revision_number:14|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:SmoothLyso2
+    Name the primary objects to be identified:IdentifyPrimaryObjects_LYSO
+    Typical diameter of objects, in pixel units (Min,Max):1,15
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:15
+    Suppress local maxima that are closer than this minimum allowed distance:7.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Display accepted local maxima?:No
+    Select maxima color:Blue
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.007,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+ExpandOrShrinkObjects:[module_num:25|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:IdentifyPrimaryObjects_LYSO
+    Name the output objects:ShrunkenNuclei
+    Select the operation:Shrink objects by a specified number of pixels
+    Number of pixels by which to expand or shrink:1
+    Fill holes in objects so that all objects shrink to a single point?:No
+
+OverlayOutlines:[module_num:26|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Display outlines on a blank image?:No
+    Select image on which to display outlines:Lyso_original
+    Name the output image:OrigOverlay_Lyso
+    Outline display mode:Color
+    Select method to determine brightness of outlines:Max of image
+    How to outline:Inner
+    Select outline color:Red
+    Select objects to display:IdentifyPrimaryObjects_LYSO
+
+RelateObjects:[module_num:27|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Parent objects:IdentifySecondaryObjects
+    Child objects:IdentifyPrimaryObjects_LYSO
+    Calculate child-parent distances?:None
+    Calculate per-parent means for all child measurements?:No
+    Calculate distances to other parents?:No
+    Do you want to save the children with parents as a new object set?:No
+    Name the output object:RelateObjects
+    Parent name:None
+    Parent name:None
+    Parent name:None
+    Parent name:None
+    Parent name:None
+    Parent name:None
+    Parent name:None
+    Parent name:None
+    Parent name:None
+
+ConvertObjectsToImage:[module_num:28|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:IdentifyPrimaryObjects_LYSO
+    Name the output image:Lyso_Image
+    Select the color format:Color
+    Select the colormap:Default
+
+SaveImages:[module_num:29|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:Lyso_Image
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:Lyso_original
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:png
+    Output file location:Elsewhere...|/home/marmia/Mariam_Thesis/Evaluation_Data/Cellprofiler_predictions
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+CorrectIlluminationCalculate:[module_num:30|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Mito_original
+    Name the output image:Illum_Mito
+    Select how the illumination function is calculated:Background
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:No
+    Calculate function for each image individually, or based on all images?:Each
+    Smoothing method:Splines
+    Method to calculate smoothing filter size:Automatic
+    Approximate object diameter:10
+    Smoothing filter size:10
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2.0
+    Image resampling factor:2.0
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+CorrectIlluminationApply:[module_num:31|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Mito_original
+    Name the output image:Corr_Mito
+    Select the illumination function:Illum_Mito
+    Select how the illumination function is applied:Subtract
+    Set output image values less than 0 equal to 0?:Yes
+    Set output image values greater than 1 equal to 1?:Yes
+
+Smooth:[module_num:32|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Mito_original
+    Name the output image:Smooth1_Mito
+    Select smoothing method:Median Filter
+    Calculate artifact diameter automatically?:No
+    Typical artifact diameter:14.0
+    Edge intensity difference:0.1
+    Clip intensities to 0 and 1?:Yes
+
+EnhanceOrSuppressFeatures:[module_num:33|svn_version:'Unknown'|variable_revision_number:7|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Smooth1_Mito
+    Name the output image:Enhance_Mito
+    Select the operation:Enhance
+    Feature size:50
+    Feature type:Neurites
+    Range of hole sizes:1,10
+    Smoothing scale:2.0
+    Shear angle:0.0
+    Decay:0.95
+    Enhancement method:Line structures
+    Speed and accuracy:Fast
+    Rescale result image:No
+
+Smooth:[module_num:34|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Enhance_Mito
+    Name the output image:Smooth2_Mito
+    Select smoothing method:Median Filter
+    Calculate artifact diameter automatically?:No
+    Typical artifact diameter:10.0
+    Edge intensity difference:0.1
+    Clip intensities to 0 and 1?:Yes
+
+Morph:[module_num:35|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Smooth2_Mito
+    Name the output image:Morph_Mito
+    Select the operation to perform:openlines
+    Number of times to repeat operation:Once
+    Line length:30
+    Rescale values from 0 to 1?:Yes
+
+IdentifyPrimaryObjects:[module_num:36|svn_version:'Unknown'|variable_revision_number:14|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Morph_Mito
+    Name the primary objects to be identified:IdentifyPrimaryObjects_Mito
+    Typical diameter of objects, in pixel units (Min,Max):20,300
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:80
+    Suppress local maxima that are closer than this minimum allowed distance:7.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:Never
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Display accepted local maxima?:No
+    Select maxima color:Blue
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:1.1
+    Threshold correction factor:0.4
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+OverlayOutlines:[module_num:37|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Display outlines on a blank image?:No
+    Select image on which to display outlines:Mito_original
+    Name the output image:OrigOverlay_Mito
+    Outline display mode:Color
+    Select method to determine brightness of outlines:Max of image
+    How to outline:Inner
+    Select outline color:Red
+    Select objects to display:IdentifyPrimaryObjects_Mito
+
+ConvertObjectsToImage:[module_num:38|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:IdentifyPrimaryObjects_Mito
+    Name the output image:MitoImage
+    Select the color format:Color
+    Select the colormap:Default
+
+MeasureColocalization:[module_num:39|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Corr_Cell, Corr_Nuclei
+    Set threshold as percentage of maximum intensity for the images:15.0
+    Select where to measure correlation:Within objects
+    Select objects to measure:FilterObjects2
+    Run all metrics?:Yes
+    Calculate correlation and slope metrics?:Yes
+    Calculate the Manders coefficients?:Yes
+    Calculate the Rank Weighted Colocalization coefficients?:Yes
+    Calculate the Overlap coefficients?:Yes
+    Calculate the Manders coefficients using Costes auto threshold?:Yes
+    Method for Costes thresholding:Faster
+
+MeasureObjectIntensityDistribution:[module_num:40|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Corr_Cell, Corr_Mito, Corr_Nuclei
+    Hidden:3
+    Hidden:1
+    Hidden:0
+    Calculate intensity Zernikes?:None
+    Maximum zernike moment:9
+    Select objects to measure:FilterObjects2
+    Object to use as center?:These objects
+    Select objects to use as centers:None
+    Select objects to measure:IdentifySecondaryObjects
+    Object to use as center?:These objects
+    Select objects to use as centers:None
+    Select objects to measure:IdentifyPrimaryObjects_Mito
+    Object to use as center?:These objects
+    Select objects to use as centers:None
+    Scale the bins?:Yes
+    Number of bins:4
+    Maximum radius:100
+
+MeasureImageIntensity:[module_num:41|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Cell_original, Corr_Cell, Corr_Mito, Corr_Nuclei, Mito_original, Nucleus_original
+    Measure the intensity only from areas enclosed by objects?:No
+    Select input object sets:
+    Calculate custom percentiles:No
+    Specify percentiles to measure:10,90
+
+ExportToSpreadsheet:[module_num:42|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the column delimiter:Comma (",")
+    Add image metadata columns to your object data file?:No
+    Add image file and folder names to your object data file?:No
+    Select the measurements to export:Yes
+    Calculate the per-image mean values for object measurements?:No
+    Calculate the per-image median values for object measurements?:No
+    Calculate the per-image standard deviation values for object measurements?:No
+    Output file location:Default Output Folder|
+    Create a GenePattern GCT file?:No
+    Select source of sample row name:Metadata
+    Select the image to use as the identifier:None
+    Select the metadata to use as the identifier:None
+    Export all measurement types?:Yes
+    Press button to select measurements:FilterObjects2|RadialDistribution_FracAtD_Corr_Mito_4of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Mito_1of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Mito_2of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Mito_3of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Cell_3of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Cell_1of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Cell_2of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Cell_4of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Nuclei_4of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Nuclei_1of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Nuclei_2of4,FilterObjects2|RadialDistribution_FracAtD_Corr_Nuclei_3of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Nuclei_4of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Nuclei_3of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Nuclei_1of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Nuclei_2of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Cell_1of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Cell_3of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Cell_4of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Cell_2of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Mito_2of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Mito_1of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Mito_4of4,FilterObjects2|RadialDistribution_RadialCV_Corr_Mito_3of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Nuclei_3of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Nuclei_4of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Nuclei_2of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Nuclei_1of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Mito_2of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Mito_3of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Mito_1of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Mito_4of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Cell_2of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Cell_1of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Cell_4of4,FilterObjects2|RadialDistribution_MeanFrac_Corr_Cell_3of4,FilterObjects2|Correlation_RWC_Corr_Cell_Corr_Nuclei,FilterObjects2|Correlation_RWC_Corr_Nuclei_Corr_Cell,FilterObjects2|Correlation_Manders_Corr_Nuclei_Corr_Cell,FilterObjects2|Correlation_Manders_Corr_Cell_Corr_Nuclei,FilterObjects2|Correlation_Correlation_Corr_Cell_Corr_Nuclei,FilterObjects2|Correlation_Costes_Corr_Cell_Corr_Nuclei,FilterObjects2|Correlation_Costes_Corr_Nuclei_Corr_Cell,FilterObjects2|Correlation_Overlap_Corr_Cell_Corr_Nuclei,FilterObjects2|Correlation_K_Corr_Cell_Corr_Nuclei,FilterObjects2|Correlation_K_Corr_Nuclei_Corr_Cell,FilterObjects2|Number_Object_Number,FilterObjects2|Parent_FilterObjects1,FilterObjects2|Children_IdentifySecondaryObjects_Count,FilterObjects2|Location_Center_Z,FilterObjects2|Location_Center_X,FilterObjects2|Location_Center_Y,Image|Threshold_OrigThreshold_IdentifyPrimaryObjects_Mito,Image|Threshold_OrigThreshold_IdentifyPrimaryObjects_Nuclei,Image|Threshold_OrigThreshold_IdentifyPrimaryObjects_LYSO,Image|Threshold_OrigThreshold_IdentifySecondaryObjects,Image|Threshold_FinalThreshold_IdentifySecondaryObjects,Image|Threshold_FinalThreshold_IdentifyPrimaryObjects_Nuclei,Image|Threshold_FinalThreshold_IdentifyPrimaryObjects_LYSO,Image|Threshold_FinalThreshold_IdentifyPrimaryObjects_Mito,Image|Threshold_WeightedVariance_IdentifySecondaryObjects,Image|Threshold_WeightedVariance_IdentifyPrimaryObjects_Mito,Image|Threshold_WeightedVariance_IdentifyPrimaryObjects_Nuclei,Image|Threshold_WeightedVariance_IdentifyPrimaryObjects_LYSO,Image|Threshold_SumOfEntropies_IdentifyPrimaryObjects_LYSO,Image|Threshold_SumOfEntropies_IdentifyPrimaryObjects_Mito,Image|Threshold_SumOfEntropies_IdentifyPrimaryObjects_Nuclei,Image|Threshold_SumOfEntropies_IdentifySecondaryObjects,Image|Threshold_GuideThreshold_IdentifyPrimaryObjects_Nuclei,Image|Threshold_GuideThreshold_IdentifySecondaryObjects,Image|Intensity_StdIntensity_Corr_Cell,Image|Intensity_StdIntensity_Corr_Nuclei,Image|Intensity_StdIntensity_Corr_Mito,Image|Intensity_StdIntensity_Nucleus_original,Image|Intensity_StdIntensity_Mito_original,Image|Intensity_StdIntensity_Cell_original,Image|Intensity_MeanIntensity_Mito_original,Image|Intensity_MeanIntensity_Corr_Cell,Image|Intensity_MeanIntensity_Corr_Nuclei,Image|Intensity_MeanIntensity_Corr_Mito,Image|Intensity_MeanIntensity_Cell_original,Image|Intensity_MeanIntensity_Nucleus_original,Image|Intensity_MedianIntensity_Cell_original,Image|Intensity_MedianIntensity_Corr_Cell,Image|Intensity_MedianIntensity_Corr_Nuclei,Image|Intensity_MedianIntensity_Corr_Mito,Image|Intensity_MedianIntensity_Mito_original,Image|Intensity_MedianIntensity_Nucleus_original,Image|Intensity_UpperQuartileIntensity_Cell_original,Image|Intensity_UpperQuartileIntensity_Corr_Nuclei,Image|Intensity_UpperQuartileIntensity_Corr_Mito,Image|Intensity_UpperQuartileIntensity_Corr_Cell,Image|Intensity_UpperQuartileIntensity_Mito_original,Image|Intensity_UpperQuartileIntensity_Nucleus_original,Image|Intensity_MinIntensity_Corr_Cell,Image|Intensity_MinIntensity_Corr_Mito,Image|Intensity_MinIntensity_Corr_Nuclei,Image|Intensity_MinIntensity_Cell_original,Image|Intensity_MinIntensity_Mito_original,Image|Intensity_MinIntensity_Nucleus_original,Image|Intensity_LowerQuartileIntensity_Corr_Mito,Image|Intensity_LowerQuartileIntensity_Corr_Cell,Image|Intensity_LowerQuartileIntensity_Corr_Nuclei,Image|Intensity_LowerQuartileIntensity_Cell_original,Image|Intensity_LowerQuartileIntensity_Mito_original,Image|Intensity_LowerQuartileIntensity_Nucleus_original,Image|Intensity_MADIntensity_Cell_original,Image|Intensity_MADIntensity_Corr_Cell,Image|Intensity_MADIntensity_Corr_Mito,Image|Intensity_MADIntensity_Corr_Nuclei,Image|Intensity_MADIntensity_Nucleus_original,Image|Intensity_MADIntensity_Mito_original,Image|Intensity_PercentMaximal_Corr_Cell,Image|Intensity_PercentMaximal_Corr_Mito,Image|Intensity_PercentMaximal_Corr_Nuclei,Image|Intensity_PercentMaximal_Mito_original,Image|Intensity_PercentMaximal_Cell_original,Image|Intensity_PercentMaximal_Nucleus_original,Image|Intensity_TotalIntensity_Cell_original,Image|Intensity_TotalIntensity_Corr_Mito,Image|Intensity_TotalIntensity_Corr_Cell,Image|Intensity_TotalIntensity_Corr_Nuclei,Image|Intensity_TotalIntensity_Nucleus_original,Image|Intensity_TotalIntensity_Mito_original,Image|Intensity_MaxIntensity_Mito_original,Image|Intensity_MaxIntensity_Corr_Cell,Image|Intensity_MaxIntensity_Corr_Nuclei,Image|Intensity_MaxIntensity_Corr_Mito,Image|Intensity_MaxIntensity_Cell_original,Image|Intensity_MaxIntensity_Nucleus_original,Image|Intensity_TotalArea_Corr_Mito,Image|Intensity_TotalArea_Corr_Nuclei,Image|Intensity_TotalArea_Corr_Cell,Image|Intensity_TotalArea_Nucleus_original,Image|Intensity_TotalArea_Mito_original,Image|Intensity_TotalArea_Cell_original,Image|URL_Mito_original,Image|URL_Nucleus_original,Image|URL_Lyso_original,Image|URL_Cell_original,Image|ModuleError_14SaveImages,Image|ModuleError_01Images,Image|ModuleError_25ExpandOrShrinkObjects,Image|ModuleError_08IdentifyPrimaryObjects,Image|ModuleError_22EnhanceOrSuppressFeatures,Image|ModuleError_29SaveImages,Image|ModuleError_28ConvertObjectsToImage,Image|ModuleError_06CorrectIlluminationApply,Image|ModuleError_07EnhanceOrSuppressFeatures,Image|ModuleError_24IdentifyPrimaryObjects,Image|ModuleError_36IdentifyPrimaryObjects,Image|ModuleError_27RelateObjects,Image|ModuleError_10MeasureObjectSizeShape,Image|ModuleError_31CorrectIlluminationApply,Image|ModuleError_33EnhanceOrSuppressFeatures,Image|ModuleError_41MeasureImageIntensity,Image|ModuleError_21Smooth,Image|ModuleError_32Smooth,Image|ModuleError_17IdentifySecondaryObjects,Image|ModuleError_02Metadata,Image|ModuleError_03NamesAndTypes,Image|ModuleError_15CorrectIlluminationCalculate,Image|ModuleError_39MeasureColocalization,Image|ModuleError_16CorrectIlluminationApply,Image|ModuleError_35Morph,Image|ModuleError_37OverlayOutlines,Image|ModuleError_12FilterObjects,Image|ModuleError_09FilterObjects,Image|ModuleError_13ConvertObjectsToImage,Image|ModuleError_04Groups,Image|ModuleError_26OverlayOutlines,Image|ModuleError_05CorrectIlluminationCalculate,Image|ModuleError_18ConvertObjectsToImage,Image|ModuleError_11MeasureObjectIntensity,Image|ModuleError_19SaveImages,Image|ModuleError_20EnhanceOrSuppressFeatures,Image|ModuleError_40MeasureObjectIntensityDistribution,Image|ModuleError_23Smooth,Image|ModuleError_30CorrectIlluminationCalculate,Image|ModuleError_34Smooth,Image|ModuleError_38ConvertObjectsToImage,Image|Count_IdentifySecondaryObjects,Image|Count_ShrunkenNuclei,Image|Count_FilterObjects2,Image|Count_IdentifyPrimaryObjects_LYSO,Image|Count_IdentifyPrimaryObjects_Mito,Image|Count_IdentifyPrimaryObjects_Nuclei,Image|Count_FilterObjects1,Image|ExecutionTime_26OverlayOutlines,Image|ExecutionTime_25ExpandOrShrinkObjects,Image|ExecutionTime_04Groups,Image|ExecutionTime_06CorrectIlluminationApply,Image|ExecutionTime_28ConvertObjectsToImage,Image|ExecutionTime_03NamesAndTypes,Image|ExecutionTime_29SaveImages,Image|ExecutionTime_41MeasureImageIntensity,Image|ExecutionTime_23Smooth,Image|ExecutionTime_40MeasureObjectIntensityDistribution,Image|ExecutionTime_24IdentifyPrimaryObjects,Image|ExecutionTime_05CorrectIlluminationCalculate,Image|ExecutionTime_32Smooth,Image|ExecutionTime_27RelateObjects,Image|ExecutionTime_20EnhanceOrSuppressFeatures,Image|ExecutionTime_14SaveImages,Image|ExecutionTime_33EnhanceOrSuppressFeatures,Image|ExecutionTime_08IdentifyPrimaryObjects,Image|ExecutionTime_07EnhanceOrSuppressFeatures,Image|ExecutionTime_12FilterObjects,Image|ExecutionTime_10MeasureObjectSizeShape,Image|ExecutionTime_30CorrectIlluminationCalculate,Image|ExecutionTime_02Metadata,Image|ExecutionTime_22EnhanceOrSuppressFeatures,Image|ExecutionTime_13ConvertObjectsToImage,Image|ExecutionTime_16CorrectIlluminationApply,Image|ExecutionTime_09FilterObjects,Image|ExecutionTime_15CorrectIlluminationCalculate,Image|ExecutionTime_01Images,Image|ExecutionTime_37OverlayOutlines,Image|ExecutionTime_35Morph,Image|ExecutionTime_18ConvertObjectsToImage,Image|ExecutionTime_21Smooth,Image|ExecutionTime_11MeasureObjectIntensity,Image|ExecutionTime_38ConvertObjectsToImage,Image|ExecutionTime_34Smooth,Image|ExecutionTime_31CorrectIlluminationApply,Image|ExecutionTime_19SaveImages,Image|ExecutionTime_36IdentifyPrimaryObjects,Image|ExecutionTime_17IdentifySecondaryObjects,Image|ExecutionTime_39MeasureColocalization,Image|FileName_Cell_original,Image|FileName_Mito_original,Image|FileName_Nucleus_original,Image|FileName_Lyso_original,Image|Width_Cell_original,Image|Width_Lyso_original,Image|Width_Nucleus_original,Image|Width_Mito_original,Image|Scaling_Cell_original,Image|Scaling_Nucleus_original,Image|Scaling_Mito_original,Image|Scaling_Lyso_original,Image|Height_Nucleus_original,Image|Height_Cell_original,Image|Height_Lyso_original,Image|Height_Mito_original,Image|Series_Cell_original,Image|Series_Mito_original,Image|Series_Nucleus_original,Image|Series_Lyso_original,Image|Metadata_ChannelNumber,Image|Metadata_Instrument,Image|Metadata_Plate,Image|Metadata_Well,Image|Metadata_Series,Image|Metadata_Frame,Image|Metadata_FileLocation,Image|Metadata_Site,Image|Frame_Mito_original,Image|Frame_Nucleus_original,Image|Frame_Lyso_original,Image|Frame_Cell_original,Image|MD5Digest_Lyso_original,Image|MD5Digest_Cell_original,Image|MD5Digest_Mito_original,Image|MD5Digest_Nucleus_original,Image|PathName_Mito_original,Image|PathName_Lyso_original,Image|PathName_Nucleus_original,Image|PathName_Cell_original,Image|Group_Number,Image|Group_Index,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Cell_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Cell_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Cell_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Cell_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Nuclei_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Nuclei_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Nuclei_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Nuclei_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Mito_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Mito_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Mito_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_MeanFrac_Corr_Mito_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Nuclei_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Nuclei_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Nuclei_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Nuclei_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Mito_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Mito_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Mito_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Mito_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Cell_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Cell_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Cell_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_RadialCV_Corr_Cell_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Mito_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Mito_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Mito_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Mito_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Cell_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Cell_1of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Cell_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Cell_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Nuclei_4of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Nuclei_2of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Nuclei_3of4,IdentifyPrimaryObjects_Mito|RadialDistribution_FracAtD_Corr_Nuclei_1of4,IdentifyPrimaryObjects_Mito|Number_Object_Number,IdentifyPrimaryObjects_Mito|Location_Center_X,IdentifyPrimaryObjects_Mito|Location_Center_Z,IdentifyPrimaryObjects_Mito|Location_Center_Y,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Nuclei_1of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Nuclei_4of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Nuclei_2of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Nuclei_3of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Mito_1of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Mito_4of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Mito_2of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Mito_3of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Cell_4of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Cell_3of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Cell_2of4,IdentifySecondaryObjects|RadialDistribution_RadialCV_Corr_Cell_1of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Cell_1of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Cell_3of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Cell_4of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Cell_2of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Nuclei_3of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Nuclei_1of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Nuclei_4of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Nuclei_2of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Mito_4of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Mito_3of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Mito_1of4,IdentifySecondaryObjects|RadialDistribution_FracAtD_Corr_Mito_2of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Nuclei_4of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Nuclei_3of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Nuclei_2of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Nuclei_1of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Cell_2of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Cell_1of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Cell_4of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Cell_3of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Mito_2of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Mito_4of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Mito_3of4,IdentifySecondaryObjects|RadialDistribution_MeanFrac_Corr_Mito_1of4,IdentifySecondaryObjects|Location_Center_Z,IdentifySecondaryObjects|Location_Center_Y,IdentifySecondaryObjects|Location_Center_X,IdentifySecondaryObjects|Parent_FilterObjects2,IdentifySecondaryObjects|Number_Object_Number,IdentifySecondaryObjects|Children_IdentifyPrimaryObjects_LYSO_Count,IdentifyPrimaryObjects_Nuclei|Location_Center_Y,IdentifyPrimaryObjects_Nuclei|Location_Center_Z,IdentifyPrimaryObjects_Nuclei|Location_Center_X,IdentifyPrimaryObjects_Nuclei|Children_FilterObjects1_Count,IdentifyPrimaryObjects_Nuclei|Number_Object_Number,FilterObjects1|AreaShape_Center_X,FilterObjects1|AreaShape_Center_Y,FilterObjects1|AreaShape_FormFactor,FilterObjects1|AreaShape_MeanRadius,FilterObjects1|AreaShape_Orientation,FilterObjects1|AreaShape_MaxFeretDiameter,FilterObjects1|AreaShape_MinFeretDiameter,FilterObjects1|AreaShape_Eccentricity,FilterObjects1|AreaShape_EulerNumber,FilterObjects1|AreaShape_MedianRadius,FilterObjects1|AreaShape_Compactness,FilterObjects1|AreaShape_Area,FilterObjects1|AreaShape_BoundingBoxArea,FilterObjects1|AreaShape_EquivalentDiameter,FilterObjects1|AreaShape_BoundingBoxMinimum_Y,FilterObjects1|AreaShape_BoundingBoxMinimum_X,FilterObjects1|AreaShape_BoundingBoxMaximum_Y,FilterObjects1|AreaShape_BoundingBoxMaximum_X,FilterObjects1|AreaShape_Perimeter,FilterObjects1|AreaShape_MajorAxisLength,FilterObjects1|AreaShape_Extent,FilterObjects1|AreaShape_MaximumRadius,FilterObjects1|AreaShape_Solidity,FilterObjects1|AreaShape_MinorAxisLength,FilterObjects1|Location_Center_Z,FilterObjects1|Location_Center_X,FilterObjects1|Location_Center_Y,FilterObjects1|Location_CenterMassIntensity_X_Corr_Nuclei,FilterObjects1|Location_CenterMassIntensity_Z_Corr_Nuclei,FilterObjects1|Location_CenterMassIntensity_Y_Corr_Nuclei,FilterObjects1|Location_MaxIntensity_Y_Corr_Nuclei,FilterObjects1|Location_MaxIntensity_Z_Corr_Nuclei,FilterObjects1|Location_MaxIntensity_X_Corr_Nuclei,FilterObjects1|Intensity_MaxIntensityEdge_Corr_Nuclei,FilterObjects1|Intensity_UpperQuartileIntensity_Corr_Nuclei,FilterObjects1|Intensity_IntegratedIntensity_Corr_Nuclei,FilterObjects1|Intensity_LowerQuartileIntensity_Corr_Nuclei,FilterObjects1|Intensity_MinIntensityEdge_Corr_Nuclei,FilterObjects1|Intensity_MinIntensity_Corr_Nuclei,FilterObjects1|Intensity_MeanIntensity_Corr_Nuclei,FilterObjects1|Intensity_MADIntensity_Corr_Nuclei,FilterObjects1|Intensity_MaxIntensity_Corr_Nuclei,FilterObjects1|Intensity_MeanIntensityEdge_Corr_Nuclei,FilterObjects1|Intensity_MedianIntensity_Corr_Nuclei,FilterObjects1|Intensity_IntegratedIntensityEdge_Corr_Nuclei,FilterObjects1|Intensity_StdIntensity_Corr_Nuclei,FilterObjects1|Intensity_MassDisplacement_Corr_Nuclei,FilterObjects1|Intensity_StdIntensityEdge_Corr_Nuclei,FilterObjects1|Number_Object_Number,FilterObjects1|Parent_IdentifyPrimaryObjects_Nuclei,FilterObjects1|Children_FilterObjects2_Count,IdentifyPrimaryObjects_LYSO|Number_Object_Number,IdentifyPrimaryObjects_LYSO|Parent_IdentifySecondaryObjects,IdentifyPrimaryObjects_LYSO|Location_Center_Z,IdentifyPrimaryObjects_LYSO|Location_Center_X,IdentifyPrimaryObjects_LYSO|Location_Center_Y,Experiment|Modification_Timestamp,Experiment|CellProfiler_Version,Experiment|Run_Timestamp,Experiment|Pipeline_Pipeline,ShrunkenNuclei|Location_Center_Y,ShrunkenNuclei|Location_Center_X,ShrunkenNuclei|Number_Object_Number
+    Representation of Nan/Inf:NaN
+    Add a prefix to file names?:Yes
+    Filename prefix:Full_pipe_
+    Overwrite existing files without warning?:No
+    Data to export:Do not use
+    Combine these object measurements with those of the previous object?:No
+    File name:DATA.csv
+    Use the object name for the file name?:Yes
