@@ -41,6 +41,8 @@ for i,j in zip(all_mask, all_im):
     cv2.imwrite("{0}/{1}".format(subdir,j),newim)
 
 #---------------------------------
+#Do the split
+
 import os,sys
 import shutil
 
