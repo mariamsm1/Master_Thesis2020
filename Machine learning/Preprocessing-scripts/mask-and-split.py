@@ -1,5 +1,6 @@
 '''This script masks out all the objects around the center object the cropped image so
-it will copy the pixels of the center objects only. '''
+it will copy the pixels of the center objects only. Afterwards the obtained directory
+was split into 2 directories: cropcenter_withspots and cropcenter_withoutspots. '''
 
 import skimage.io
 import matplotlib.pyplot as plt
@@ -39,6 +40,37 @@ for i,j in zip(all_mask, all_im):
     #plt.show()
     cv2.imwrite("{0}/{1}".format(subdir,j),newim)
 
+#---------------------------------
+import os,sys
+import shutil
+
+#take the path of the cropped center objects
+path_cropped = '/home/marmia/snic2020-6-41/Mariam/Mariam_Thesis/Notebooks_Master/Masked_cropped_cells'
+
+#take the path of the already sorted with and without spots center objects
+path_with = '/lunarc/nobackup/projects/snic2020-6-41/Mariam/Mariam_Thesis/Results_Pipelines_Images/Binary_Classifier_data/All_withspots_orig'
+path_without = '/lunarc/nobackup/projects/snic2020-6-41/Mariam/Mariam_Thesis/Results_Pipelines_Images/Binary_Classifier_data/All_withoutspots_orig'
+
+all_crop = os.listdir(path_cropped)
+all_with = os.listdir(path_with)
+all_without = os.listdir(path_without)
+
+subdirs = ['cropcenter_withspots', 'cropcenter_withoutspots']
+for subdir in subdirs:
+    if not os.path.exists(subdir):
+        os.makedirs(subdir)
+    else:
+        os.system('rm -rf %s/*' % subdir)
+
+        
+count = 0
+for image in all_with:
+    if image in all_crop:
+        #put full image path
+        shutil.copy2(os.path.join(path_cropped, image),subdirs[0])
+for image in all_without:
+    if image in all_crop:
+        shutil.copy2(os.path.join(path_cropped, image),subdirs[1])
 
 
 # 
