@@ -1,4 +1,4 @@
-'''This script masks out all the objects around the center object the cropped image so
+'''This script masks out all the objects around the center object of the cropped image so
 it will copy the pixels of the center objects only. Afterwards the obtained directory
 was split into 2 directories: cropcenter_withspots and cropcenter_withoutspots. '''
 
