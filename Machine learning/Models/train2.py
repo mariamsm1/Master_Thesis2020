@@ -117,15 +117,39 @@ model.save_weights('Final_VGG16.h5')
 
 #plot the results
 #Plot loss and accuracy
-n_epochs = 12
 plt.figure()
-plt.plot(np.arange(0, n_epochs), hist.history["loss"], label = "train_loss")
-plt.plot(np.arange(0, n_epochs), hist.history["val_loss"], label = "val_loss")
-plt.plot(np.arange(0, n_epochs), hist.history["accuracy"], label = "acc")
-plt.plot(np.arange(0, n_epochs), hist.history["val_accuracy"], label = "val_acc")
+plt.plot(hist.history["loss"], label = "train_loss")
+plt.plot(hist.history["val_loss"], label = "val_loss")
+plt.plot(hist.history["accuracy"], label = "acc")
+plt.plot(hist.history["val_accuracy"], label = "val_acc")
 plt.title("Training loss and Accuracy on VGG16")
 plt.xlabel("Number of epochs")
 plt.ylabel("Loss/Accuracy")
 plt.legend(loc = "best")
-plt.savefig('train2.png')
+plt.savefig('train10_50epochs.png')
+
+#history for accuracy
+fig = plt.figure()
+plt.plot(hist.history['accuracy'])
+plt.plot(hist.history['val_accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.ylim(0,100)
+plt.legend(['train_acc', 'val_acc'],loc='upper left')
+plt.show()
+fig.savefig('accuracy_curve.png')
+
+# summarize history for loss
+fig = plt.figure()
+plt.plot(hist.history['loss'])
+plt.plot(hist.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+ply.ylim(0,5.5)
+plt.legend(['train_loss', 'val_loss'],loc='upper left')
+plt.show()
+fig.savefig('loss_curve.png')
+
 
