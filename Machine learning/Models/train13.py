@@ -130,7 +130,7 @@ plt.title("Training loss and Accuracy on VGG16")
 plt.xlabel("Number of epochs")
 plt.ylabel("Loss/Accuracy")
 plt.legend(loc = "best")
-plt.savefig('train14.png')
+plt.savefig('train13.png')
 
 #history for accuracy
 fig = plt.figure()
