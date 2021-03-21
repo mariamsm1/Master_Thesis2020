@@ -1,1 +1,1 @@
-- Each of the models has been trained on 3 train-validation splits i.e. 3 rounds, yet only te first round has been uploaded as the rest are the same script but different path.
+- Each of the models has been trained on 3 train-validation splits i.e. 3 folds, yet only te first round has been uploaded as the rest are the same script but different path.
