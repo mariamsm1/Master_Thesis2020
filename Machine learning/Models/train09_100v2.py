@@ -15,8 +15,8 @@ from tensorflow.keras.applications.vgg16 import VGG16
 
 count = 0
 #start with round1
-path_train = '/home/marmia/snic2020-6-41/Mariam/Mariam_Thesis/Results_Pipelines_Images/Binary_Classifier_data/Augmentation/All_augmented_images_train_val/round1/aug_train'
-path_val = '/home/marmia/snic2020-6-41/Mariam/Mariam_Thesis/Results_Pipelines_Images/Binary_Classifier_data/Augmentation/All_augmented_images_train_val/round1/aug_val'
+path_train = '/pfs/proj/nobackup/fs/projnb10/aits_storage/Mariam/All_augmented_images_train_val/round1/aug_train'
+path_val = '/pfs/proj/nobackup/fs/projnb10/aits_storage/Mariam/All_augmented_images_train_val/round1/aug_val'
 ####fix train images
 
 train_images = []
@@ -107,12 +107,12 @@ model = Model(inputs = x, outputs = y)
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 #save results to a csv
 csv_logger = tf.keras.callbacks.CSVLogger('train_log.csv', append=True, separator=',')
-checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{val_accuracy:.2f}.h5', monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
+checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{val_acc:.2f}.h5', monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 #stop the training when there's no improvement in the accuracy anymore 
 #set patience which is the number of epochs after which no improvment in training is observed
-callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', mode = 'max',patience=7)
+callback = tf.keras.callbacks.EarlyStopping(monitor='val_acc', mode = 'max',patience=20)
 #train the model #each batch includes 32 batches by default
-hist = model.fit(x_train, y_train,epochs=25, validation_data=(x_val, y_val),callbacks = [csv_logger,checkpoint,callback],verbose=1)
+hist = model.fit(x_train, y_train,epochs=100, validation_data=(x_val, y_val),callbacks = [csv_logger,checkpoint,callback],verbose=1)
 print("Done!")
 model.save_weights('Final_VGG16.h5') 
 
@@ -122,8 +122,8 @@ model.save_weights('Final_VGG16.h5')
 plt.figure()
 plt.plot(hist.history["loss"], label = "train_loss")
 plt.plot(hist.history["val_loss"], label = "val_loss")
-plt.plot(hist.history["accuracy"], label = "acc")
-plt.plot(hist.history["val_accuracy"], label = "val_acc")
+plt.plot(hist.history["acc"], label = "acc")
+plt.plot(hist.history["val_acc"], label = "val_acc")
 plt.title("Training loss and Accuracy on VGG16")
 plt.xlabel("Number of epochs")
 plt.ylabel("Loss/Accuracy")
@@ -132,8 +132,8 @@ plt.savefig('train9v2_100epochs.png')
 
 #history for accuracy
 fig = plt.figure()
-plt.plot(hist.history['accuracy']*100)
-plt.plot(hist.history['val_accuracy']*100)
+plt.plot(hist.history['acc']*100)
+plt.plot(hist.history['val_acc']*100)
 plt.title('model accuracy')
 plt.ylabel('accuracy')
 plt.ylim(0,100)
