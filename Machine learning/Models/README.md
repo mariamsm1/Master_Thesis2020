@@ -1,3 +1,3 @@
 - Each of the models has been trained on 3 train-validation splits i.e. 3 folds, yet only te first round has been uploaded as the rest are the same script but different path.
 - train09_100 , train12_100, train14_100 represent the models that were trained on augmented images with flipping and rotation.
-- train09_100v2 is trained on brightness augmented images + flipping and rotation on top.
+- train09_100v2 is trained on brightness augmented images + flipping and rotation on top. This model was trained on kebnakaise.
