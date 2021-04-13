@@ -132,8 +132,8 @@ plt.savefig('train9v2_100epochs.png')
 
 #history for accuracy
 fig = plt.figure()
-plt.plot(hist.history['acc']*100)
-plt.plot(hist.history['val_acc']*100)
+plt.plot(hist.history['acc'])
+plt.plot(hist.history['val_acc'])
 plt.title('model accuracy')
 plt.ylabel('accuracy')
 plt.ylim(0,100)
