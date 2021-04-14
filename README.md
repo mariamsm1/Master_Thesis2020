@@ -16,15 +16,15 @@ In the second task, the first step was to use 24 Unet segmented-nuclei images (d
 * Matplotlib library v2.2.3
 
 ## Quick tour in the directories
-* Images <br>
+### Images <br>
 Includes the list of annotated images for each of the channels (d0,d1,and d2). These Images were used in the evaluation of my pipelines.There are 40 nuclei images that were evaluated to further test whether pipelines are better with or without illumination correction. See folder's READme for more details about the paths.<br>
 
 
-* Pipelines <br>
+### Pipelines <br>
 Includes all the illumination correction pipelines that were tested during the project (see *Illumination_Correction*) as well as nuclei, cell and lysosomes pipelines that were evaluated using the evaluation script (see *Nuclei_pipelines, Cell_pipelines, and Lysosomes_pipelines* respectively). The directory contains as well the full segmentation pipeline for all the objects mentioned earlier (all grouped together). The difference in the pipelines for each object segmentation lies mainly in the IdentifyPrimaryObjects module, specifically Thresholding strategy/Thresholding method/Threshold smoothing scale/Threshold correction factor. Some other changes in the parameters were done if the pipeline has smoothing modules (e.g. lysosomes pipeline) and Morph (e.g. mitochondria). See folders' READme files for more details about each folder's content.<br>
 
 
-* Results <br>
+### Results <br>
 Contains the evaluation script that was modified by one of the master students at our lab and further modified by me to be able to run multiple cellprofiler images at once. One evaluation script was run per one pipeline for a given object and the same was true for illumination-corrected pipelines and illumination-uncorrected pipelines. Note that the **utils** folder must be placed in the same directory as the evaluation script before running it. for changing the false positive and false negative thresholds in the script: <br>
   1. Go to **utils/evaluation.py** 
   2. Change threshold = ... in FPs and FNs functions (e.g. threshold = 0.1).
@@ -38,19 +38,19 @@ Contains the evaluation script that was modified by one of the master students a
   
   For points 3 and 4, see LysoSpots_number_and_area_CPvsRaw folder. Note that the best pipeline (i.e. the pipeline with the best evaluation) was used for calculations and comparisons.
 
-* Machine Learning <br>
+### Machine Learning <br>
 Contains the main analysis scripts that were used before and throughout the classification task.<br>
 The folder involves the following: <br>
-1. Preprocessing-scripts : 
+#### Preprocessing-scripts : 
   1. crop.py : crops original nuclei, cells, mitochondria images + lysosome images + predicted CellProfiler's cell images + predicted nuclei images from the best Unet's model + overlay lysosomes on top of cells images. All of these images were cropped to 224x224 based on center coordinates of the predicted nuclei images.
   2. mask-and-split.py : masks objects around the center object (cell) to obtain a single cell image or training the classifier.
   3. cross-validation.ipynb : script for splitting data into train,validation and test images.
   4. rotate_flip_augmentation.py: performs rotation and flipping augmentation on the single cell images.
   5. Brightness_augmentation.ipynb : performs brightness augmentation on single cell images.
 
-2. Models:
+#### Models:
 See Models_summary.ipynb to have an insight about the different models trained in this project.
 
-3. Loss_and_accuracy_curves.ipynb:
+#### Loss_and_accuracy_curves.ipynb:
 Summarizes the loss and accuracy curves of the trained models in one plot for each.
 
