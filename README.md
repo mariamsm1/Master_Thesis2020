@@ -25,7 +25,7 @@ Includes all the illumination correction pipelines that were tested during the p
 
 
 * Results <br>
-Contains the evaluation script that was modified by one of the master students in our lab and further modified by me to be able to run multiple cellprofiler images at once. One evaluation script was run per one pipeline for a given object and the same was true for illumination-corrected pipelines and illumination-uncorrected pipelines. Note that the **utils** folder must be placed in the same directory as the evaluation script before running it. for changing the false positive and false negative thresholds in the script: <br>
+Contains the evaluation script that was modified by one of the master students at our lab and further modified by me to be able to run multiple cellprofiler images at once. One evaluation script was run per one pipeline for a given object and the same was true for illumination-corrected pipelines and illumination-uncorrected pipelines. Note that the **utils** folder must be placed in the same directory as the evaluation script before running it. for changing the false positive and false negative thresholds in the script: <br>
   1. Go to **utils/evaluation.py** 
   2. Change threshold = ... in FPs and FNs functions (e.g. threshold = 0.1).
   3. OR add to the FPs and FNs def functions in the evaluation script (4th cell) the desired threshold(after image_name).
@@ -38,4 +38,19 @@ Contains the evaluation script that was modified by one of the master students i
   
   For points 3 and 4, see LysoSpots_number_and_area_CPvsRaw folder. Note that the best pipeline (i.e. the pipeline with the best evaluation) was used for calculations and comparisons.
 
-**To be continued**
+* Machine Learning <br>
+Contains the main analysis scripts that were used before and throughout the classification task.<br>
+The folder involves the following: <br>
+1. Preprocessing-scripts : 
+- crop.py : crops original nuclei, cells, mitochondria images + lysosome images + predicted CellProfiler's cell images + predicted nuclei images from the best Unet's model + overlay lysosomes on top of cells images. All of these images were cropped to 224x224 based on center coordinates of the predicted nuclei images.
+- mask-and-split.py : masks objects around the center object (cell) to obtain a single cell image or training the classifier.
+- cross-validation.ipynb : script for splitting data into train,validation and test images.
+- rotate_flip_augmentation.py: performs rotation and flipping augmentation on the single cell images.
+- Brightness_augmentation.ipynb : performs brightness augmentation on single cell images.
+
+2. Models:
+See Models_summary.ipynb to have an insight about the different models trained in this project.
+
+3. Loss_and_accuracy_curves.ipynb:
+Summarizes the loss and accuracy curves of the trained models in one plot for each.
+
