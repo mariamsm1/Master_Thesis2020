@@ -11,9 +11,8 @@ In the second task, the first step was to use 24 Unet segmented-nuclei images (d
 * Cellprofiler v4.0.7 <br>
 * ThinLinc Client for macOS v4.12.0 <br>
 
-## Packages and libraries
-* See packages.py
-* Matplotlib library v2.2.3
+## Main libraries
+* Matplotlib library v3.3.4, NumPy
 
 ## Quick tour in the directories
 ### Images <br>
