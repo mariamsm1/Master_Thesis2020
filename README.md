@@ -42,11 +42,11 @@ Contains the evaluation script that was modified by one of the master students a
 Contains the main analysis scripts that were used before and throughout the classification task.<br>
 The folder involves the following: <br>
 1. Preprocessing-scripts : 
-  1. crop.py : crops original nuclei, cells, mitochondria images + lysosome images + predicted CellProfiler's cell images + predicted nuclei images from the best Unet's model + overlay lysosomes on top of cells images. All of these images were cropped to 224x224 based on center coordinates of the predicted nuclei images.
-  2. mask-and-split.py : masks objects around the center object (cell) to obtain a single cell image or training the classifier.
-  3. cross-validation.ipynb : script for splitting data into train,validation and test images.
-  4. rotate_flip_augmentation.py: performs rotation and flipping augmentation on the single cell images.
-  5. Brightness_augmentation.ipynb : performs brightness augmentation on single cell images.
+  i. crop.py : crops original nuclei, cells, mitochondria images + lysosome images + predicted CellProfiler's cell images + predicted nuclei images from the best Unet's model + overlay lysosomes on top of cells images. All of these images were cropped to 224x224 based on center coordinates of the predicted nuclei images.
+  ii. mask-and-split.py : masks objects around the center object (cell) to obtain a single cell image or training the classifier.
+  iii. cross-validation.ipynb : script for splitting data into train,validation and test images.
+  iv. rotate_flip_augmentation.py: performs rotation and flipping augmentation on the single cell images.
+  v. Brightness_augmentation.ipynb : performs brightness augmentation on single cell images.
 
 2. Models:
 See Models_summary.ipynb to have an insight about the different models trained in this project.
