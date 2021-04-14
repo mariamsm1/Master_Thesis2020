@@ -31,10 +31,10 @@ Contains the evaluation script that was modified by one of the master students a
   3. OR add to the FPs and FNs def functions in the evaluation script (4th cell) the desired threshold(after image_name).
 
   This folder contains also the plotting scripts:<br>
-    1. To compare the effect of illumination correction on the evaluation (see IlluminationVsNoIllumination.ipynb). 
-    2. To see the size distribution of ground truth objects belonging to lysosomes, nuclei, an cells (see Size_Distribution_Plots_Raw_Annotation folder).
-    3. To compare the number of spots and area distribution of lysosomes in ground truth images vs cellprofiler segmented images.
-    4. To calculate the average number of lysosomes per cell.
+  1. To compare the effect of illumination correction on the evaluation (see IlluminationVsNoIllumination.ipynb). 
+  2. To see the size distribution of ground truth objects belonging to lysosomes, nuclei, an cells (see Size_Distribution_Plots_Raw_Annotation folder).
+  3. To compare the number of spots and area distribution of lysosomes in ground truth images vs cellprofiler segmented images.
+  4. To calculate the average number of lysosomes per cell.
   
   For points 3 and 4, see LysoSpots_number_and_area_CPvsRaw folder. Note that the best pipeline (i.e. the pipeline with the best evaluation) was used for calculations and comparisons.
 
