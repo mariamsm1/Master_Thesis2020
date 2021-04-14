@@ -7,7 +7,7 @@ For the first task, different pipelines were built to try identify the objects a
 In the second task, the first step was to use 24 Unet segmented-nuclei images (done by a colleague) as input images in CellProfiler to get the corresponding x and y coordinates of each object (i.e. nucleus) in order to crop, based on each object's center, a 224x224 image. This was applied on several images sets and most importantly on the cells images which were used for the binary classification step.
 
 ## Dependencies, softwares, and platforms
-* python v3.7.0 <br>
+* python v3.7.4 <br>
 * Cellprofiler v4.0.7 <br>
 * ThinLinc Client for macOS v4.12.0 <br>
 
