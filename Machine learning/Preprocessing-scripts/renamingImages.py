@@ -11,7 +11,8 @@ import shutil
 
 
 #get the big directory
-folders_list = glob.glob('/Users/mariamsm/Desktop/Binary_Classifier_data/*')
+os.chdir('/Users/mariamsm/Desktop/Binary_Classifier_data/')
+
 
 #get the path of all the folders and files in the big directory
 path = '/Users/mariamsm/Desktop/Binary_Classifier_data/*'
