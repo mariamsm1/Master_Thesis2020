@@ -71,8 +71,6 @@ x_train,y_train,x_val,y_val = train_images,train_labels,val_images,val_labels
 # y[:,:,0] = 0 
 # plt.imshow(y)
 
-#if dtype was float, we need to divide by 255.0 not 255
-#print(y.dtype)
 
 #loading the model
 #include_top = false will remove the last layer because i have 2 categories only, not 1000 as imagenet
