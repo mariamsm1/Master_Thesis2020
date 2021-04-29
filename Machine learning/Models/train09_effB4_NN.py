@@ -28,7 +28,6 @@ for im in train_list:
     #get the labels
     label = im.split('_')[-1].replace('.png','')
     train_labels.append(label)
-    #read the image in RGB because vgg16 only takes rgbs
     im = cv2.imread(im)
     im =  cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     train_images.append(im)
@@ -49,7 +48,6 @@ for im in val_list:
     #get the labels
     label = im.split('_')[-1].replace('.png','')
     val_labels.append(label)
-    #read the image in RGB because vgg16 only takes rgbs
     im = cv2.imread(im)
     im =  cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     val_images.append(im)
@@ -90,7 +88,7 @@ efnet = efc.EfficientNetB4(input_shape = Image_size , weights = 'imagenet', incl
 x = efnet.input
 y = efnet.output # a vector with a size of 2 for each image (2 probabilities)
 y = Flatten(name = 'flatten')(y)
-#normaliza the input to the neural network to speed up training
+#normalize the input to the neural network to speed up training
 y = BatchNormalization()(y)
 y = Dense(32, activation='relu', name = 'FC1')(y)
 y = Dropout(0.2)(y)
@@ -103,7 +101,6 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 #save results to a csv
 csv_logger = tf.keras.callbacks.CSVLogger('train_log.csv', append=True, separator=',')
 checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{val_accuracy:.2f}.h5', monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
-#stop the training when there's no improvement in the accuracy anymore 
 #set patience which is the number of epochs after which no improvment in training is observed
 callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', mode = 'max',patience=20)
 #train the model #each batch includes 32 batches by default
