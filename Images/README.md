@@ -7,3 +7,4 @@
 - Path for evaluated cells (from validation set) : /lunarc/nobackup/projects/snic2020-6-41/Shared_data/Ground_Truth_Images_CP/Cells/
 - Raw_annotations_lysosomes contains the lysosomes ground truth images that were used for evaluating lysosomes images (CP input images were the same except that they end with .C01).
 - Path for evaluated lysosomes: /lunarc/nobackup/projects/snic2020-6-41/Shared_data/Ground_Truth_Images_CP/Lysosomes/
+- Path for CellProfiler's training images: /home/marmia/snic2020-6-41/Shared_data/C01_images_for_training_CP
