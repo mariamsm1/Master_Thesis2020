@@ -53,3 +53,5 @@ See Models_summary.ipynb to have an insight about the different models trained i
 #### Loss_and_accuracy_curves.ipynb:
 Summarizes the loss and accuracy curves of the trained models in one plot for each.
 
+## Notes:
+In order to know how to use Alvis for models training, see Master_Thesis2020/Machine learning/Alvis_tutorial.ipynb.
