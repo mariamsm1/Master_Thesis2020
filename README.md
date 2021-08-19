@@ -12,7 +12,7 @@ In the second task, the first step was to use 24 Unet segmented-nuclei images (d
 * ThinLinc Client for macOS v4.12.0 <br>
 
 ## Main libraries
-* Matplotlib library v3.3.4, NumPy, Keras, Tensorflow
+* Matplotlib library v3.3.4, NumPy, Keras v2.3.1, Tensorflow v2.1.0
 
 ## Quick tour in the directories
 ### Images <br>
