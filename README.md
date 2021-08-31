@@ -34,7 +34,7 @@ Contains the evaluation script that was modified by one of the master students a
   2. To see the size distribution of ground truth objects belonging to lysosomes, nuclei, an cells (see Size_Distribution_Plots_Raw_Annotation folder).
   3. To compare the number of spots and area distribution of lysosomes in ground truth images vs cellprofiler segmented images.
   4. To calculate the average number of lysosomes per cell.
-  5. To investigate cell cycle of a random plate (preliminary test) + to check the corresponding objects area vs intensity.
+  5. To investigate cell cycle of a random plate (Preliminary_tests) + to check the corresponding objects area vs intensity.
   
   For points 3 and 4, see LysoSpots_number_and_area_CPvsRaw folder. Note that the best pipeline (i.e. the pipeline with the best evaluation) was used for calculations and comparisons.
 
