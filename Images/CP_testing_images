@@ -1,3 +1,6 @@
+All images had .png format as well. These are manually annotated d0,d1 for evaluation purposes.
+
+
 d0
 ########################
 MFGTMPcx7_170702000001_G14f03d0.C01  
@@ -12,7 +15,7 @@ MFGTMPcx7_170702090001_P07f14d0.C01
 MFGTMPcx7_170803210001_J12f29d0.C01
 
 
-d1-cells (.png set is used and is the same)
+d1-cells (d0.png are used and are the same (for guiding cells segmentation))
 ########################
 MFGTMPcx7_170731090001_G15f03d1.C01  
 MFGTMPcx7_170731090001_I12f07d1.C01
