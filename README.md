@@ -51,6 +51,9 @@ The folder involves the following: <br>
 #### Models:
 See Models_summary.ipynb to have an insight about the different models trained in this project.
 
+#### Predictions:
+Contains Prediction_vgg16_effNetB7.ipynb which includes set of codes for predicting on the test set using the best performing VGG16 and EfficientNet-B7. This also involves plotting of the prediction results.
+
 #### Loss_and_accuracy_curves.ipynb:
 Summarizes the loss and accuracy curves of the trained models in one plot for each.
 
